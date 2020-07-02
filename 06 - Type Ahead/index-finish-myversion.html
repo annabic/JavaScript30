@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Type Ahead 👀</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <form class="search-form">
+      <input type="text" class="search" placeholder="City or State" value="" />
+      <ul class="suggestions">
+        <li>Filter for a city</li>
+        <li>or a state</li>
+      </ul>
+    </form>
+    <style>
+      .colored {
+        background: #ffc600;
+      }
+
+      .population {
+        font-size: 15px;
+      }
+    </style>
+    <script>
+      const data = [];
+      const endpoint =
+        "https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json";
+
+      const prompt = fetch(endpoint)
+        .then((response) => response.json())
+        .then((res) => data.push(...res));
+
+      const input = document.getElementsByClassName("search")[0];
+      const suggestions = document.getElementsByClassName("suggestions")[0];
+
+      function getSearchResults(needle) {
+        return data.filter((place) => {
+          // here we need to figure out if the city or state matches what was searched
+          const regex = new RegExp(needle, "gi");
+          return place.city.match(regex) || place.state.match(regex);
+        });
+        // .sort((a, b) => b.population - a.population);
+      }
+
+      function formatCityOrState(el, value) {
+        const regex = new RegExp(value, "gi");
+        return el.replace(regex, `<span class="colored">${value}</span>`);
+      }
+
+      function formatPopulation(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+      }
+
+      function handleInput(ev) {
+        const value = ev.target.value;
+        const results = getSearchResults(value);
+        let str = "";
+
+        results.forEach((el) => {
+          const { city, state, population } = el;
+          str += `<li><span>${formatCityOrState(
+            city,
+            value
+          )}, ${formatCityOrState(
+            state,
+            value
+          )} </span><span class="population">${formatPopulation(
+            population
+          )}</span></li>`;
+        });
+
+        suggestions.innerHTML = str;
+      }
+
+      input.addEventListener("input", handleInput);
+    </script>
+  </body>
+</html>
