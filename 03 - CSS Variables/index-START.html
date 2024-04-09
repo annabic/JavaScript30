@@ -23,9 +23,24 @@
 
   <style>
 
+    :root {
+      --base: #ffc600;
+      --spacing: 10px;
+      --blur: 10px;
+    }
     /*
       misc styles, nothing to do with CSS variables
     */
+
+    img {
+      padding: var(--spacing);
+      background: var(--base);
+      filter: blur(var(--blur));
+    }
+
+    .h1 {
+      color: var(--base);
+    }
 
     body {
       text-align: center;
@@ -46,6 +61,16 @@
   </style>
 
   <script>
+    const root = r = document.querySelector(':root');
+    const inputs = document.querySelectorAll(".controls input");
+
+    function updateVariable() {
+      root.style.setProperty(`--${this.name}`, this.value + (this.dataset.sizing || ""));
+    }
+
+    inputs.forEach((input) => {
+      input.addEventListener('input', updateVariable);
+    })
   </script>
 
 </body>
