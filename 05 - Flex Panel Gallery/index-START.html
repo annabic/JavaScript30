@@ -27,6 +27,7 @@
     .panels {
       min-height: 100vh;
       overflow: hidden;
+      display: flex;
     }
 
     .panel {
@@ -44,6 +45,12 @@
       font-size: 20px;
       background-size: cover;
       background-position: center;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+
     }
 
     .panel1 { background-image:url(https://source.unsplash.com/gYl-UtwNg_I/1500x1500); }
@@ -64,6 +71,15 @@
       font-family: 'Amatic SC', cursive;
       text-shadow: 0 0 4px rgba(0, 0, 0, 0.72), 0 0 14px rgba(0, 0, 0, 0.45);
       font-size: 2em;
+
+    }
+
+    .panel p:first-of-type {
+      transform: translateY(-50vh);
+    }
+
+    .panel p:last-of-type {
+      transform: translateY(50vh);
     }
 
     .panel p:nth-child(2) {
@@ -72,6 +88,14 @@
 
     .panel.open {
       font-size: 40px;
+      flex: 5;
+    }
+
+    /* Alternative would be to listen for transition end */
+    .panel.open p:first-of-type,
+    .panel.open p:last-of-type {
+      transition-delay: 0.7s; 
+      transform: translateY(0%);
     }
 
   </style>
@@ -106,7 +130,23 @@
   </div>
 
   <script>
+    const panels = document.querySelectorAll(".panels .panel");
 
+    function toggleOpen() {
+      this.classList.toggle("open");
+    }
+
+    // function toggleActive(e) {
+    //   console.log(e.propertyName);
+    //   if (e.propertyName.includes('flex')) {
+    //     this.classList.toggle('open-active');
+    //   }
+    // }
+
+    panels.forEach((panel) => {
+      panel.addEventListener("click", toggleOpen);
+      // panel.addEventListener('transitionend', toggleActive);
+    })
   </script>
 
 
