@@ -16,8 +16,59 @@
     </ul>
   </form>
 <script>
-const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
+  const endpoint = 'https://gist.githubusercontent.com/Miserlou/c5cd8364bf9b2420bb29/raw/2bf258763cdddd704f8ffd3ea9a3e81d25e2c6f6/cities.json';
 
+  let places = [];
+
+  async function fetchData() {
+    try {
+      // Use the await keyword within the async function to fetch data
+      const response = await fetch(endpoint);
+      places = await response.json();
+
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  }
+
+  fetchData();
+
+  const numberFormat =  new Intl.NumberFormat('en-US');
+
+  // filters & formats the search results
+  function getSearchResults(value) {
+    // i - for case-insentive, because the word might start with capital letter
+    const regex = new RegExp(`(${value})`, "gi");
+
+    return places
+        .reduce((acc, item) => {
+          if (item.city.match(regex) || item.state.match(regex)) {      
+
+          // wraps search string in span
+          const place = (`${item.city}, ${item.state}`).replace(regex, `<span class="hl">$1</span>`);
+
+            return acc + `
+              <li>
+                <span>${place}</span>
+                <span class="population">${numberFormat.format(parseInt(item.population))}</span>
+              </li>
+            `;
+          }
+
+          return acc;
+        }, "")
+  }
+
+  function displaySearchResults() {
+    if (places.length) {
+      const suggestions = document.querySelector(".suggestions");
+
+      suggestions.innerHTML = getSearchResults(this.value);
+    }
+  }
+
+  const input = document.querySelector(".search");
+  input.addEventListener("input", displaySearchResults);
 </script>
 </body>
 </html>
