@@ -97,6 +97,29 @@
   </div>
 
 <script>
+  const checkboxes = document.querySelectorAll("input");
+  let lastChecked = null;
+
+  function handleUpdate(event, index) {
+    if (event.currentTarget.checked) {
+      if (event.shiftKey) {
+        const min = Math.min(lastChecked, index);
+        const max = Math.max(lastChecked, index);
+        for (let i = min; i < max; i++) {
+          checkboxes.item(i).checked = true;
+        }
+      }
+
+      lastChecked = index;
+    } else if (lastChecked === index) {
+      lastChecked = null;
+    }
+  }
+
+  checkboxes.forEach((input, index) => {
+    input.addEventListener("click", (e) => handleUpdate(e, index));
+  });
+
 </script>
 </body>
 </html>
