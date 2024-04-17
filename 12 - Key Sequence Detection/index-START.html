@@ -7,6 +7,26 @@
     <link rel="icon" href="https://fav.farm/🔥" />
   </head>
   <body>
-    <script></script>
+    <script>
+      let found = 0;
+      const secretCode = 'annabic';
+
+      function matchKeyPress(e) {
+        const expectedKey = secretCode[found];
+
+        if (e.key === expectedKey) {
+          found++;
+  
+          if (found === secretCode.length) {
+            found = 0;
+            cornify_add();
+          }
+        } else {
+          found = 0;
+        }
+      }
+
+      window.addEventListener('keyup', matchKeyPress);
+    </script>
   </body>
 </html>
