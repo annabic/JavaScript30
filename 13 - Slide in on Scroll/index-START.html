@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Document</title>
   <link rel="icon" href="https://fav.farm/🔥" />
+  <script src="https://flackr.github.io/scroll-timeline/dist/scroll-timeline.js"></script>
 </head>
 <body>
 
@@ -59,6 +60,25 @@
       };
     }
 
+    // const images = document.querySelectorAll('.slide-in');
+
+    // function slide(e) {
+    //   images.forEach(image => {
+    //     const slideIn = window.scrollY + window.innerHeight - image.height / 2;
+    //     const slideOut = image.offsetTop + image.height;
+
+    //     const isImageHalfShown = slideIn > image.offsetTop;
+    //     const isNotScrolledPast = window.scrollY < slideOut;
+
+    //     if (isImageHalfShown && isNotScrolledPast) {
+    //       image.classList.add('active');
+    //     } else {
+    //       image.classList.remove('active');
+    //     }
+    //   })
+    // }
+
+    // window.addEventListener('scroll', debounce(slide));
   </script>
 
   <style>
@@ -116,6 +136,29 @@
     .slide-in.active {
       opacity: 1;
       transform: translateX(0%) scale(1);
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+        transform: translateX(0%) scale(1);
+      }
+    }
+
+    .slide-in {
+      /* Create View Timeline */
+      view-timeline-name: --revealing-image;
+      view-timeline-axis: block;
+
+      /* Attach animation, linked to the  View Timeline */
+      animation: ease-in-out reveal both;
+      animation-timeline: --revealing-image;
+
+      /* Tweak range when effect should run*/
+      animation-range: entry 25% cover 30%;
     }
 
   </style>
