@@ -9,13 +9,25 @@
 
   <script>
     // start with strings, numbers and booleans
+    let age = 12;
+    let age2 = age;
+    age = 20;
+    console.log(age, age2);
+
+    let bool = false;
+    let bool2 = bool;
+    bool = true;
+    console.log(bool, bool2);
 
     // Let's say we have an array
     const players = ['Wes', 'Sarah', 'Ryan', 'Poppy'];
 
     // and we want to make a copy of it.
+    const newPlayers = players;
 
     // You might think we can just do something like this:
+    // newPlayers[3] = "Scott";
+    console.log(newPlayers, players);
 
     // however what happens when we update that array?
 
@@ -29,9 +41,20 @@
 
     // one way
 
+    const newPlayers2 = players.slice();
+    newPlayers2[3] = "Scott";
+    console.log(newPlayers2, players);
+
     // or create a new array and concat the old one in
 
+    const newPlayers3 = [].concat(players);
+    newPlayers3[3] = "Scott";
+    console.log(newPlayers3, players);
+
     // or use the new ES6 Spread
+    const newPlayers4 = [...players];
+    newPlayers4[3] = "Scott";
+    console.log(newPlayers4, players);
 
     // now when we update it, the original one isn't changed
 
@@ -45,12 +68,31 @@
 
     // and think we make a copy:
 
+    const newPerson = person;
+    // newPerson.age = 99;
+    console.log(newPerson, person);
+
     // how do we take a copy instead?
 
     // We will hopefully soon see the object ...spread
+    const newPerson2 = Object.assign({}, person, { age: 99 });
+    console.log(newPerson2, person);
 
     // Things to note - this is only 1 level deep - both for Arrays and Objects. lodash has a cloneDeep method, but you should think twice before using it.
 
+    const twoLevelObject = {
+      name: 'Wes Bos',
+      age: 80,
+      social: {
+        twitter: '@wesbos',
+        facebook: 'wesbos.developer'
+      }
+    };
+    // const twoLevelObject2 = Object.assign({}, twoLevelObject);
+    const twoLevelObject3 = JSON.parse(JSON.stringify(twoLevelObject));
+    twoLevelObject3.social.twitter = '@wesbos2';
+
+    console.log(twoLevelObject, twoLevelObject3);
   </script>
 
 </body>
