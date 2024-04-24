@@ -183,6 +183,20 @@
     </li>
   </ul>
 <script>
+  const times = Array.from(document.querySelectorAll("[data-time]"));
+
+  const seconds = times.reduce((acc, timeStr) => {
+    const [min, sec] = timeStr.dataset.time.split(":");
+
+    return acc + parseFloat(min) * 60 + parseFloat(sec);
+  }, 0);
+
+  const hours = Math.floor(seconds / 3600);
+  let secondsLeft = seconds % 3600;
+  const minutes = Math.floor(secondsLeft / 60);
+  secondsLeft = secondsLeft % 60;
+
+  console.log(hours, minutes, secondsLeft);
 </script>
 </body>
 </html>
