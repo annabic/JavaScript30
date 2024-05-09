@@ -86,3 +86,12 @@ nav a {
   transition: all 0.2s;
   text-transform: uppercase;
 }
+
+.fixed-nav nav {
+  position: fixed;
+  box-shadow: '0px 1px 1px black';
+}
+
+.fixed-nav li.logo {
+  max-width: 500px;
+}
